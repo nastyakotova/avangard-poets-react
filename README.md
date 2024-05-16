@@ -1,5 +1,3 @@
-# diplom
-
 split terminal
 
 cd backend
