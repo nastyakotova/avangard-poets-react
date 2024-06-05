@@ -1,3 +1,9 @@
+import { CreateArtistForm } from '../../components';
+
 export const Form = () => {
-  return <div>Form</div>;
+  return (
+    <>
+      <CreateArtistForm />
+    </>
+  );
 };
