@@ -11,6 +11,7 @@ import { Form } from './pages/form/form';
 // import { FormControlLabel, PaletteMode, Paper, Switch, createTheme } from '@mui/material';
 // import { styles } from './styles';
 import { Navigation } from './components/navigation/navigation';
+import { ArtistsList } from './components/artists-list';
 // import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 // import ruLocale from 'date-fns/locale/ru';
 // import DateFnsUtils from '@date-io/date-fns';
@@ -39,28 +40,28 @@ const App = () => {
     // <ColorModeContext.Provider value={colorMode}>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       {/* <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}> */}
-        {/* <ThemeProvider theme={theme}> */}
-        <BrowserRouter>
-          {/* <Paper sx={styles.wrapper}> */}
-          <Navigation />
+      {/* <ThemeProvider theme={theme}> */}
+      <BrowserRouter>
+        {/* <Paper sx={styles.wrapper}> */}
+        <Navigation />
 
-          {/* <FormControlLabel
+        {/* <FormControlLabel
                 control={<Switch checked={theme.palette.mode === 'dark'} onChange={colorMode.toggleColorMode} />}
                 label="Темная тема"
               /> */}
 
-          <Routes>
-            <Route path="/" element={<Form />} />
-            <Route path="*" element={<Form />} />
-
-            {/* <Route path="/" element={<Cards />} />
+        <Routes>
+          <Route path="/" element={<ArtistsList />} />
           <Route path="/form" element={<Form />} />
+          <Route path="*" element={<Form />} />
+
+          {/* <Route path="/" element={<Cards />} />
           <Route path="/table" element={<Table />} />
           <Route path="*" element={<Cards />} /> */}
-          </Routes>
-          {/* </Paper> */}
-        </BrowserRouter>
-        {/* </ThemeProvider> */}
+        </Routes>
+        {/* </Paper> */}
+      </BrowserRouter>
+      {/* </ThemeProvider> */}
       {/* </MuiPickersUtilsProvider> */}
     </LocalizationProvider>
     // </ColorModeContext.Provider>

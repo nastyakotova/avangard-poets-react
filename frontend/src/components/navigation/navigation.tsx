@@ -20,17 +20,17 @@ export const Navigation = () => {
 
   return (
     <Box sx={styles.wrapper}>
-      {/* <Button onClick={() => handleClick('/')} variant={location.pathname === '/' ? 'contained' : 'outlined'}>
-        Cards
-      </Button> */}
+      <Button onClick={() => handleClick('/')} variant={location.pathname === '/' ? 'contained' : 'outlined'}>
+        Список художников
+      </Button>
 
-      {/* <Button onClick={() => handleClick('/form')} variant={location.pathname === '/form' ? 'contained' : 'outlined'}>
+      <Button onClick={() => handleClick('/form')} variant={location.pathname === '/form' ? 'contained' : 'outlined'}>
         добавить
-      </Button> */}
+      </Button>
 
-      {/* <Button onClick={() => handleClick('/table')} variant={location.pathname === '/table' ? 'contained' : 'outlined'}>
+      <Button onClick={() => handleClick('/table')} variant={location.pathname === '/table' ? 'contained' : 'outlined'}>
         Table
-      </Button> */}
+      </Button>
     </Box>
   );
 };
