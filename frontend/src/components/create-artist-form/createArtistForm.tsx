@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Autocomplete, Box, Button, Checkbox, TextField } from '@mui/material';
-import { IBaseForm, IBaseFormProps, Props } from './types';
+import { IArtMovement, IBaseForm, IBaseFormProps, Props } from './types';
 import { styles } from './styles';
 import { useFormik } from 'formik';
-import { validationSchema } from './validationSchema';
+// import { validationSchema } from './validationSchema';
 import { dictionary } from './dictionary';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
@@ -14,23 +14,15 @@ import { DATE_FORMAT_DMY } from './constants';
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-const top100Films = [
-  { title: 'Суприматизм', year: 1994 },
-  { title: 'Абстракционизм', year: 1972 },
-  { title: 'Футуризм', year: 1974 },
-  { title: 'Кубизм', year: 2008 },
-  {
-    title: 'The Lord of the Rings: The Return of the King',
-    year: 2003,
-  },
-];
-
 export const CreateArtistForm: FC<Props> = (): React.ReactElement => {
+  const [artMovements, setArtMovements] = useState<Array<IArtMovement>>([]);
+
   const baseForm: IBaseFormProps = useFormik<IBaseForm>({
     initialValues: {
       lastName: '',
       firstName: '',
       patronymic: '',
+      isArtist: true,
       birthDate: '',
       birthPlace: '',
       deathDate: '',
@@ -39,18 +31,71 @@ export const CreateArtistForm: FC<Props> = (): React.ReactElement => {
       otherInfo: '',
       wikiUrl: '',
     },
-    validationSchema,
-    onSubmit: () => {},
+    // validationSchema,
+    onSubmit: async ({
+      artMovements,
+      lastName,
+      firstName,
+      patronymic,
+      // isArtist,
+      birthDate,
+      deathDate,
+      birthPlace,
+      deathPlace,
+      otherInfo,
+      wikiUrl,
+    }) => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/artists/', {
+          method: 'POST',
+          body: JSON.stringify({
+            artMovements: artMovements.map((movement) => movement.id),
+            lastName,
+            firstName,
+            patronymic,
+            isArtist: true,
+            birthDate,
+            deathDate,
+            birthPlace,
+            deathPlace,
+            otherInfo,
+            wikiUrl,
+          }),
+          headers: {
+            'content-type': 'application/json;charset=UTF-8',
+          },
+        });
+
+        const data = await response.json();
+
+        if (data) {
+          setArtMovements(data);
+        }
+      } catch (error) {}
+    },
   });
 
-  // TODO: добавить поля для ввода даты
-  // TODO: добавить поле для поиска направлений (с чекбоксами)
+  const fetchArtMovements = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/artmovements/');
+
+      const data = await response.json();
+
+      if (data) {
+        setArtMovements(data);
+      }
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    fetchArtMovements();
+  }, []);
+
   // TODO: уменьшить размер полей для ввода даты
-  // TODO: добавить кнопку для отправки формы
   // TODO: реализовать отправку данный в запрос
 
   return (
-    <Box component="form" sx={styles.form} autoComplete="off">
+    <Box component="form" sx={styles.form} autoComplete="off" onSubmit={baseForm.submitForm}>
       <Box sx={styles.row}>
         <TextField
           name="lastName"
@@ -147,9 +192,10 @@ export const CreateArtistForm: FC<Props> = (): React.ReactElement => {
       <Box sx={styles.row}>
         <Autocomplete
           multiple
-          id="checkboxes-tags-demo"
+          fullWidth
+          id="artMovements"
           // sx={styles.autocomplete}
-          options={top100Films}
+          options={artMovements}
           disableCloseOnSelect
           getOptionLabel={(option) => option.title}
           renderOption={(props, option, { selected }) => (
@@ -158,6 +204,11 @@ export const CreateArtistForm: FC<Props> = (): React.ReactElement => {
               {option.title}
             </li>
           )}
+          onChange={(e, value) => {
+            console.log(value);
+
+            baseForm.setFieldValue('artMovements', value);
+          }}
           renderInput={(params) => (
             <TextField
               name="artMovements"
@@ -170,6 +221,7 @@ export const CreateArtistForm: FC<Props> = (): React.ReactElement => {
               // helperText={baseForm.touched.direction && baseForm.errors.direction}
               // rows={4}
               // multiline
+              sx={styles.field}
             />
           )}
         />
@@ -204,10 +256,10 @@ export const CreateArtistForm: FC<Props> = (): React.ReactElement => {
       </Box>
 
       <Box sx={styles.buttonsWrapper}>
-        <Button variant="outlined" sx={styles.button}>
+        <Button variant="outlined" sx={styles.button} onClick={() => baseForm.resetForm()}>
           {dictionary.reset}
         </Button>
-        <Button variant="contained" sx={styles.button}>
+        <Button variant="contained" sx={styles.button} onClick={() => baseForm.handleSubmit()}>
           {dictionary.save}
         </Button>
       </Box>
