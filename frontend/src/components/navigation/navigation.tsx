@@ -1,5 +1,6 @@
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { styles } from './styles';
 
 export const Navigation = () => {
   const navigate = useNavigate();
@@ -14,22 +15,22 @@ export const Navigation = () => {
   // TODO: добавить индекс файл для упрощения импорта
   // TODO: вынести стили в отдельный файл styles
   // TODO: типизировать компонент
-	// TODO: заменить div на Box из mui
-	// TODO: вынести текстовки "Cards", "Form", "Table" в файл dictionary
+  // TODO: заменить div на Box из mui
+  // TODO: вынести текстовки "Cards", "Form", "Table" в файл dictionary
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <Button onClick={() => handleClick('/')} variant={location.pathname === '/' ? 'contained' : 'outlined'}>
+    <Box sx={styles.wrapper}>
+      {/* <Button onClick={() => handleClick('/')} variant={location.pathname === '/' ? 'contained' : 'outlined'}>
         Cards
-      </Button>
+      </Button> */}
 
-      <Button onClick={() => handleClick('/form')} variant={location.pathname === '/form' ? 'contained' : 'outlined'}>
-        Form
-      </Button>
+      {/* <Button onClick={() => handleClick('/form')} variant={location.pathname === '/form' ? 'contained' : 'outlined'}>
+        добавить
+      </Button> */}
 
-      <Button onClick={() => handleClick('/table')} variant={location.pathname === '/table' ? 'contained' : 'outlined'}>
+      {/* <Button onClick={() => handleClick('/table')} variant={location.pathname === '/table' ? 'contained' : 'outlined'}>
         Table
-      </Button>
-    </div>
+      </Button> */}
+    </Box>
   );
 };

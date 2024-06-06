@@ -6,7 +6,7 @@ export const styles = {
     display: 'flex',
     flexDirection: 'column',
     gap: '16px',
-    backgroundColor: grey[200],
+    backgroundColor: grey[100],
     margin: '16px',
     padding: '16px',
     borderRadius: '8px',
@@ -30,6 +30,14 @@ export const styles = {
     },
   },
 
-  buttonsWrapper: {},
-  button: {},
+  buttonsWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: '16px',
+    justifyContent: 'end',
+  },
+
+  button: {
+    padding: '12px 24px',
+  },
 };

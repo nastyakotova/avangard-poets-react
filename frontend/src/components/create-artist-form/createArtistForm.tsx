@@ -9,6 +9,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import { DATE_FORMAT_DMY } from './constants';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -27,14 +28,14 @@ const top100Films = [
 export const CreateArtistForm: FC<Props> = (): React.ReactElement => {
   const baseForm: IBaseFormProps = useFormik<IBaseForm>({
     initialValues: {
-      surname: '',
-      name: '',
-      midName: '',
+      lastName: '',
+      firstName: '',
+      patronymic: '',
       birthDate: '',
       birthPlace: '',
       deathDate: '',
       deathPlace: '',
-      direction: '',
+      artMovements: [],
       otherInfo: '',
       wikiUrl: '',
     },
@@ -52,51 +53,54 @@ export const CreateArtistForm: FC<Props> = (): React.ReactElement => {
     <Box component="form" sx={styles.form} autoComplete="off">
       <Box sx={styles.row}>
         <TextField
-          name="surname"
+          name="lastName"
           variant="outlined"
           onChange={baseForm.handleChange}
-          value={baseForm.values.surname}
-          error={baseForm.touched.surname && !!baseForm.errors.surname}
-          label={dictionary.surname}
-          helperText={baseForm.touched.surname && baseForm.errors.surname}
+          value={baseForm.values.lastName}
+          error={baseForm.touched.lastName && !!baseForm.errors.lastName}
+          label={dictionary.lastName}
+          helperText={baseForm.touched.lastName && baseForm.errors.lastName}
           sx={styles.field}
         />
 
         <TextField
-          name="name"
+          name="firstName"
           variant="outlined"
           onChange={baseForm.handleChange}
-          value={baseForm.values.name}
-          error={baseForm.touched.name && !!baseForm.errors.name}
-          label={dictionary.name}
-          helperText={baseForm.touched.name && baseForm.errors.name}
+          value={baseForm.values.firstName}
+          error={baseForm.touched.firstName && !!baseForm.errors.firstName}
+          label={dictionary.firstName}
+          helperText={baseForm.touched.firstName && baseForm.errors.firstName}
           sx={styles.field}
         />
 
         <TextField
-          name="midName"
+          name="patronymic"
           variant="outlined"
           onChange={baseForm.handleChange}
-          value={baseForm.values.midName}
-          error={baseForm.touched.midName && !!baseForm.errors.midName}
-          label={dictionary.midName}
-          helperText={baseForm.touched.midName && baseForm.errors.midName}
+          value={baseForm.values.patronymic}
+          error={baseForm.touched.patronymic && !!baseForm.errors.patronymic}
+          label={dictionary.patronymic}
+          helperText={baseForm.touched.patronymic && baseForm.errors.patronymic}
           sx={styles.field}
         />
       </Box>
 
       <Box sx={styles.row}>
         <DatePicker
-          name="birthDate"
-          // variant="outlined"
-          onChange={(newDate) => {
-            baseForm.setFieldValue('birthDate', newDate);
-          }}
-          value={dayjs(baseForm.values.birthDate)}
-          // error={baseForm.touched.birthDate && !!baseForm.errors.birthDate}
-          label={dictionary.birthDate}
-          // helperText={baseForm.touched.birthDate && baseForm.errors.birthDate}
           sx={styles.field}
+          label={dictionary.birthDate}
+          format={DATE_FORMAT_DMY}
+          value={dayjs(baseForm.values.birthDate) || null}
+          onChange={(date) => {
+            baseForm.setFieldValue('birthDate', date, true);
+          }}
+          slotProps={{
+            textField: {
+              error: Boolean(baseForm.touched.birthDate && baseForm.errors.birthDate),
+              helperText: baseForm.touched.birthDate && baseForm.errors.birthDate,
+            },
+          }}
         />
 
         <TextField
@@ -113,16 +117,19 @@ export const CreateArtistForm: FC<Props> = (): React.ReactElement => {
 
       <Box sx={styles.row}>
         <DatePicker
-          name="deathDate"
-          // variant="outlined"
-          onChange={(newDate) => {
-            baseForm.setFieldValue('deathDate', newDate);
-          }}
-          value={dayjs(baseForm.values.deathDate) || null}
-          // error={baseForm.touched.deathDate && !!baseForm.errors.deathDate}
-          label={dictionary.deathDate}
-          // helperText={baseForm.touched.deathDate && baseForm.errors.deathDate}
           sx={styles.field}
+          label={dictionary.deathDate}
+          format={DATE_FORMAT_DMY}
+          value={dayjs(baseForm.values.deathDate) || null}
+          onChange={(date) => {
+            baseForm.setFieldValue('deathDate', date, true);
+          }}
+          slotProps={{
+            textField: {
+              error: Boolean(baseForm.touched.deathDate && baseForm.errors.deathDate),
+              helperText: baseForm.touched.deathDate && baseForm.errors.deathDate,
+            },
+          }}
         />
 
         <TextField
@@ -153,13 +160,13 @@ export const CreateArtistForm: FC<Props> = (): React.ReactElement => {
           )}
           renderInput={(params) => (
             <TextField
-              name="direction"
+              name="artMovements"
               variant="outlined"
               {...params}
               // onChange={baseForm.handleChange}
               // value={baseForm.values.direction}
               // error={baseForm.touched.direction && !!baseForm.errors.direction}
-              label={dictionary.direction}
+              label={dictionary.artMovements}
               // helperText={baseForm.touched.direction && baseForm.errors.direction}
               // rows={4}
               // multiline

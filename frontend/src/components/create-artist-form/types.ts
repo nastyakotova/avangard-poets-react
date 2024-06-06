@@ -1,14 +1,14 @@
 import { FormikProps } from 'formik';
 
 export interface IBaseForm {
-  surname: string;
-  name: string;
-  midName: string;
+  lastName: string;
+  firstName: string;
+  patronymic: string;
   birthDate: string;
   birthPlace: string | null;
   deathDate: string;
   deathPlace: string | null;
-  direction: string;
+  artMovements: Array<string>;
   otherInfo: string;
   wikiUrl: string;
 }
