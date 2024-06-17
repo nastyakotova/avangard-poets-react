@@ -9,6 +9,7 @@ export const dictionary: Record<string, string> = {
   artMovements: 'Направления',
   otherInfo: 'Дополнительная информация',
   wikiUrl: 'Ссылка на Wiki',
+  isArtist: 'Художник',
   reset: 'Очистить',
   save: 'Сохранить',
 };

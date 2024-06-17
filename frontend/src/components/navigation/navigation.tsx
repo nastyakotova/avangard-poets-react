@@ -1,10 +1,19 @@
-import { Box, Button } from '@mui/material';
+import { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Box, Button, IconButton, useTheme } from '@mui/material';
+import { LightMode, DarkMode } from '@mui/icons-material';
+
+import { ColorModeContext } from '../..';
+
+import { dictionary } from './dictionary';
 import { styles } from './styles';
 
 export const Navigation = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const theme = useTheme();
+  const colorMode = useContext(ColorModeContext);
 
   const handleClick = (link: string): void => {
     navigate(link);
@@ -12,25 +21,32 @@ export const Navigation = () => {
 
   // TODO: вынести маршруты в константы
   // TODO: написать функцию для определения варианта отображения кнопки, вынести в utils
-  // TODO: добавить индекс файл для упрощения импорта
   // TODO: вынести стили в отдельный файл styles
   // TODO: типизировать компонент
-  // TODO: заменить div на Box из mui
-  // TODO: вынести текстовки "Cards", "Form", "Table" в файл dictionary
 
   return (
     <Box sx={styles.wrapper}>
-      <Button onClick={() => handleClick('/')} variant={location.pathname === '/' ? 'contained' : 'outlined'}>
-        Список художников
+      <Button
+        sx={styles.button}
+        onClick={() => handleClick('/')}
+        color={location.pathname === '/' ? 'secondary' : 'primary'}
+        size="small"
+      >
+        {dictionary.list}
       </Button>
 
-      <Button onClick={() => handleClick('/form')} variant={location.pathname === '/form' ? 'contained' : 'outlined'}>
-        добавить
+      <Button
+        sx={styles.button}
+        onClick={() => handleClick('/form')}
+        color={location.pathname === '/form' ? 'secondary' : 'primary'}
+        size="small"
+      >
+        {dictionary.create}
       </Button>
 
-      <Button onClick={() => handleClick('/table')} variant={location.pathname === '/table' ? 'contained' : 'outlined'}>
-        Table
-      </Button>
+      <IconButton onClick={colorMode.toggleColorMode}>
+        {theme.palette.mode === 'light' ? <LightMode color="primary" /> : <DarkMode color="primary" />}
+      </IconButton>
     </Box>
   );
 };

@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Autocomplete, Box, Button, Checkbox, TextField } from '@mui/material';
+import { Autocomplete, Box, Button, Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { IArtMovement, IBaseForm, IBaseFormProps, Props } from './types';
 import { styles } from './styles';
 import { useFormik } from 'formik';
@@ -10,6 +10,7 @@ import dayjs from 'dayjs';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { DATE_FORMAT_DMY } from './constants';
+import { endpoints } from '../../endpoints';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -37,7 +38,7 @@ export const CreateArtistForm: FC<Props> = (): React.ReactElement => {
       lastName,
       firstName,
       patronymic,
-      // isArtist,
+      isArtist,
       birthDate,
       deathDate,
       birthPlace,
@@ -53,7 +54,7 @@ export const CreateArtistForm: FC<Props> = (): React.ReactElement => {
             lastName,
             firstName,
             patronymic,
-            isArtist: true,
+            isArtist,
             birthDate: dayjs(birthDate).format('YYYY-MM-DD'),
             deathDate: dayjs(deathDate).format('YYYY-MM-DD'),
             birthPlace,
@@ -77,8 +78,7 @@ export const CreateArtistForm: FC<Props> = (): React.ReactElement => {
 
   const fetchArtMovements = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/artmovements/');
-
+      const response = await fetch(endpoints.ART_MOVEMENTS);
       const data = await response.json();
 
       if (data) {
@@ -92,7 +92,6 @@ export const CreateArtistForm: FC<Props> = (): React.ReactElement => {
   }, []);
 
   // TODO: уменьшить размер полей для ввода даты
-  // TODO: реализовать отправку данный в запрос
 
   return (
     <Box component="form" sx={styles.form} autoComplete="off" onSubmit={baseForm.submitForm}>
@@ -252,6 +251,20 @@ export const CreateArtistForm: FC<Props> = (): React.ReactElement => {
           label={dictionary.wikiUrl}
           helperText={baseForm.touched.wikiUrl && baseForm.errors.wikiUrl}
           sx={styles.field}
+        />
+      </Box>
+
+      <Box sx={styles.row}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={baseForm.values.isArtist}
+              onChange={(e) => {
+                baseForm.setFieldValue('isArtist', e.target.checked, true);
+              }}
+            />
+          }
+          label={dictionary.isArtist}
         />
       </Box>
 

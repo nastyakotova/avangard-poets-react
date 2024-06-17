@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { endpoints } from '../../endpoints';
 
 interface Column {
   id: string;
@@ -55,7 +56,7 @@ export const ArtistsList = () => {
 
   const fetchArtists = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/artists/');
+      const response = await fetch(endpoints.ARTISTS);
 
       const data = await response.json();
 
