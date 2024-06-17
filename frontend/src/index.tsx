@@ -1,9 +1,9 @@
 import ReactDOM from 'react-dom/client';
-import { useState, useMemo, createContext } from 'react';
+import { useState, useMemo } from 'react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { ThemeProvider } from '@mui/material/styles';
-import { getDesignTokens } from './theme';
+import { ColorModeContext, getDesignTokens } from './theme';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { PaletteMode, Paper, createTheme } from '@mui/material';
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
@@ -15,8 +15,6 @@ import { Navigation } from './components/navigation/navigation';
 import { ArtistsList } from './components/artists-list';
 
 import './styles.css';
-
-export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
 // how to use theme in components
 

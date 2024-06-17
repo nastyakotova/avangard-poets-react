@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Button, IconButton, useTheme } from '@mui/material';
 import { LightMode, DarkMode } from '@mui/icons-material';
 
-import { ColorModeContext } from '../..';
+import { ColorModeContext } from '../../theme';
 
 import { dictionary } from './dictionary';
 import { styles } from './styles';
